@@ -14,15 +14,15 @@ class Note:
 class NoteManager:
     def __init__(self, filename):
         self.filename = filename
-        self.notes = self.load_notes()
+        self.notes = self.load_notes() # Загрузка заметок из файла при иниализацтт
 
     def load_notes(self):
         notes = []
         try:
             with open(self.filename, 'r') as file:
                 for line in file:
-                    parts = line.strip().split(';')
-                    notes.append(Note(int(parts[0]), parts[1], parts[2], parts[3]))
+                    parts = line.strip().split(';') # Разделение строки на части по точке с запятой
+                    notes.append(Note(int(parts[0]), parts[1], parts[2], parts[3])) # Создание объектов Note из строк
         except FileNotFoundError:
             pass
         return notes
@@ -34,15 +34,15 @@ class NoteManager:
 
     def add_note(self, title, message):
         timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        note = Note(len(self.notes) + 1, title, message, timestamp)
-        self.notes.append(note)
-        self.save_notes()
+        note = Note(len(self.notes) + 1, title, message, timestamp) # Создание новой заметки
+        self.notes.append(note) # Добавление заметки в список
+        self.save_notes() # Сохранение списка заметок в файл
         print("Заметка успешно сохранена.")
 
     def list_notes(self):
         if self.notes:
             for note in self.notes:
-                print(note)
+                print(note) # Вывод информации о заметке
         else:
             print("Список заметок пуст.")
 
@@ -50,11 +50,11 @@ class NoteManager:
         for note in self.notes:
             if note.id == note_id:
                 if new_title:
-                    note.title = new_title
+                    note.title = new_title # Изменение заголовка заметки
                 if new_message:
-                    note.message = new_message
-                note.timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                self.save_notes()
+                    note.message = new_message # Изменение текста заметки
+                note.timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S') # Обновление времени последнего изменения
+                self.save_notes() # Сохранение изменений в файл
                 print("Заметка успешно отредактирована.")
                 return
         print("Заметка с указанным ID не найдена.")
@@ -62,8 +62,8 @@ class NoteManager:
     def delete_note(self, note_id):
         for note in self.notes:
             if note.id == note_id:
-                self.notes.remove(note)
-                self.save_notes()
+                self.notes.remove(note) # Удаление заметки из списка
+                self.save_notes() # Сохранение изменений в файл
                 print("Заметка успешно удалена.")
                 return
         print("Заметка с указанным ID не найдена.")
